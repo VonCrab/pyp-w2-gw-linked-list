@@ -136,12 +136,12 @@ class LinkedList(AbstractLinkedList):
         
         if self.start is None:
             raise IndexError()
-            
+        
+        if index is None:
+            index = len(self) - 1 
+           
         if len(self) <= index:
             raise IndexError()
-
-        if index is None:
-            index = len(self) - 1
         
         if index == 0:
             return_value = self.start.elem
