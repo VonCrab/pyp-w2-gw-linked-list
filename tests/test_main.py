@@ -182,3 +182,11 @@ class LinkedListTestCase(unittest.TestCase):
         my_list += LinkedList()
         self.assertEqual(my_list.count(), 0)
         self.assertEqual(my_list, LinkedList())
+
+    def test_not_equal(self):
+        my_list = LinkedList([1,2,3])
+        other_list = LinkedList([3,4,5])
+        self.assertFalse(my_list == other_list)
+        
+        other_list = LinkedList([1,2])
+        self.assertFalse(my_list == other_list)

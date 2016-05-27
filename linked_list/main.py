@@ -44,16 +44,17 @@ class Node(object):
     """
 
     def __init__(self, elem, next=None):
-        pass
+        self.elem = elem
+        self.next = next
 
     def __str__(self):
-        pass
+        return str(self.elem)
 
     def __eq__(self, other):
-        pass
+        return self.elem == other.elem
 
     def __repr__(self):
-        pass
+        return "Node: {0} with next node: {1}".format(self.elem, self.next)
 
 
 class LinkedList(AbstractLinkedList):
@@ -62,34 +63,94 @@ class LinkedList(AbstractLinkedList):
     """
 
     def __init__(self, elements=None):
-        pass
+
+        self.start = None
+        self.end = None
+            
+        if elements:
+            for element in elements:
+                self.append(element)
 
     def __str__(self):
-        pass
+        return '[' + ', '.join(str(i) for i in self) + ']'
+
 
     def __len__(self):
-        pass
+        length = 0
+        for i in self:
+            length += 1
+        return length
 
     def __iter__(self):
-        pass
+        current = self.start
+        ordered_nodes = []
+        
+        while current:
+            ordered_nodes.append(current)
+            current = current.next
+            
+        return iter(ordered_nodes)
 
     def __getitem__(self, index):
-        pass
+        for i, node in enumerate(self):
+            if i == index:
+                return node.elem
 
     def __add__(self, other):
-        pass
+
+        new_list = []
+        
+        for node in self:
+            new_list.append(node.elem)
+        for node in other:
+            new_list.append(node.elem)
+            
+        return LinkedList(new_list)
 
     def __iadd__(self, other):
-        pass
+        return self.__add__(other)
 
     def __eq__(self, other):
-        pass
+        if self.count() != other.count():
+            return False
+        
+        for x, y in zip(self, other):
+            if not x == y:
+                return False
+        
+        return True
 
     def append(self, elem):
-        pass
+        new_node = Node(elem)
+        if self.start is None:
+            self.start = new_node
+        else:
+            self.end.next = new_node
+        
+        self.end = new_node
 
     def count(self):
-        pass
+        return len(self)
 
     def pop(self, index=None):
-        pass
+        
+        if self.start is None:
+            raise IndexError()
+            
+        if len(self) <= index:
+            raise IndexError()
+
+        if index is None:
+            index = len(self) - 1
+        
+        if index == 0:
+            return_value = self.start.elem
+            self.start = self.start.next
+            
+        else:
+            for i, node in enumerate(self):
+                if i == index - 1:
+                    return_value = node.next.elem
+                    node.next = node.next.next
+
+        return return_value
